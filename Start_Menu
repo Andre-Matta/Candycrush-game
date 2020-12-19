@@ -1,0 +1,86 @@
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.application.Application;
+import javafx.scene.ImageCursor;
+import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+
+public class Start_Menu extends Application {
+
+    @Override
+    public void init() throws Exception {
+        System.out.println("Hello World");
+    }
+
+    @Override
+    public void start(Stage Start_Menu) throws Exception {
+        //creating the stage
+        Start_Menu.setTitle("Candy Crush");
+        Start_Menu.getIcons().add(new Image("Images/Icon.png"));
+        Start_Menu.setWidth(900);
+        Start_Menu.setHeight(800);
+
+        //setting the scene
+        StackPane parent = new StackPane();
+        Scene scene1 = new Scene(parent);
+        Start_Menu.setScene(scene1);
+
+        //changing the cursor of the game
+        Image hand = new Image("Images/Cursor.png");
+        scene1.setCursor(new ImageCursor(hand));
+
+        //adding background to the game
+        Image background = new Image("Images/Background.jpg");
+        ImageView background1 = new ImageView(background);
+        parent.getChildren().add(background1);
+
+        //start menu sound
+        /*Media Menu_music = new Media("Music/Menu_music.mp3");
+        MediaPlayer mediaPlayer = new MediaPlayer(Menu_music);*/
+
+
+        //Making the play button
+        Image play = new Image("Images/Play_button.png");
+        ImageView play1 = new ImageView(play);
+        Button play_button = new Button();
+        play_button.setStyle("  -fx-background-color: transparent;");
+        play_button.setTranslateY(170);
+
+        //button animation when mouse hovered over it
+        play_button.setOnMouseExited(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent exit) {
+                play1.setFitHeight(110);
+                play1.setPreserveRatio(true);
+                play_button.setGraphic(play1);
+                //mediaPlayer.pause();
+            }
+        });
+        play_button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent enter) {
+                play1.setFitHeight(120);
+                play1.setPreserveRatio(true);
+                play_button.setGraphic(play1);
+              // mediaPlayer.play();
+            }
+        });
+        
+
+        //adding the button to the stage
+        parent.getChildren().add(play_button);
+
+        //showing the stage
+        Start_Menu.show();
+    }
+
+}
