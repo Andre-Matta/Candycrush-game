@@ -1,5 +1,8 @@
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.application.Application;
 import javafx.scene.ImageCursor;
@@ -9,9 +12,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import javax.swing.text.LabelView;
+import java.awt.*;
+import java.io.File;
 
 
 public class Start_Menu extends Application {
@@ -35,8 +44,7 @@ public class Start_Menu extends Application {
         Start_Menu.setScene(scene1);
 
         //changing the cursor of the game
-        Image hand = new Image("Images/Cursor.png");
-        scene1.setCursor(new ImageCursor(hand));
+        scene1.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
 
         //adding background to the game
         Image background = new Image("Images/Background.jpg");
@@ -44,16 +52,20 @@ public class Start_Menu extends Application {
         parent.getChildren().add(background1);
 
         //start menu sound
-        /*Media Menu_music = new Media("Music/Menu_music.mp3");
-        MediaPlayer mediaPlayer = new MediaPlayer(Menu_music);*/
+        /*String uriString = new File("Music/Menu_music.mp3").toURI().toString();
+        MediaPlayer mediaPlayer = new MediaPlayer(new Media(uriString));*/
 
 
         //Making the play button
         Image play = new Image("Images/Play_button.png");
         ImageView play1 = new ImageView(play);
         Button play_button = new Button();
+        play_button.setGraphic(play1);
         play_button.setStyle("  -fx-background-color: transparent;");
         play_button.setTranslateY(170);
+
+        //adding the button to the stage
+        parent.getChildren().add(play_button);
 
         //button animation when mouse hovered over it
         play_button.setOnMouseExited(new EventHandler<MouseEvent>(){
@@ -71,13 +83,103 @@ public class Start_Menu extends Application {
                 play1.setFitHeight(120);
                 play1.setPreserveRatio(true);
                 play_button.setGraphic(play1);
-              // mediaPlayer.play();
+               // mediaPlayer.play();
             }
         });
-        
 
-        //adding the button to the stage
-        parent.getChildren().add(play_button);
+        //Creating new window to write your name in
+        Stage Naming = new Stage();
+        Naming.setWidth(572);
+        Naming.setHeight(678);
+        Naming.initOwner(Start_Menu);
+        Naming.initModality(Modality.WINDOW_MODAL);
+        Naming.initStyle(StageStyle.TRANSPARENT);
+
+
+        //creating the pop-up window to write your name in
+        StackPane parent1 = new StackPane();
+        Scene naming = new Scene(parent1);
+        naming.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
+        parent1.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;" );
+        naming.setFill(Color.TRANSPARENT);
+        Naming.setScene(naming);
+        Image name_menu = new Image("Images/Name_menu.png");
+        ImageView name_menu1 = new ImageView(name_menu);
+        parent1.getChildren().add(name_menu1);
+
+        //adding text above entering name field
+        Font gamefont = Font.loadFont("Images/CANDY.TTF", 10);
+        Label Typeyourname =new Label("Type your name");
+        Typeyourname.setFont(gamefont);
+        Typeyourname.setTranslateX(-15);
+        Typeyourname.setTranslateY(-180);
+        Typeyourname.setStyle("-fx-background-color: transparent; -fx-font-size: 60; " +
+                "Color: #753a19;");
+
+        //field to type yout name
+        TextField enter_name = new TextField();
+        enter_name.setTranslateX(-10);
+        enter_name.setTranslateY(-100);
+        enter_name.setMaxWidth(400);
+        enter_name.setFont(gamefont);
+        enter_name.setAlignment(Pos.CENTER);
+        enter_name.setStyle("-fx-background-color: #fea9ca; -fx-background-radius: 20;-fx-font-size: 35;");
+
+        //entering your name after inputting it
+        Button enter = new Button();
+        enter.setGraphic(new ImageView(play));
+        enter.setTranslateY(200);
+        enter.setStyle("-fx-background-color: transparent");
+
+
+        parent1.getChildren().addAll(enter_name, Typeyourname, enter);
+
+        //adding the exit button
+        Image Exit = new Image("Images/Exit.png");
+        ImageView exit1 = new ImageView(Exit);
+        Button exit_button = new Button();
+        exit_button.setGraphic(exit1);
+        exit_button.setStyle("  -fx-background-color: transparent;");
+        exit_button.setTranslateX(234);
+        exit_button.setTranslateY(-280);
+
+        //adding the exit button to the window
+        parent1.getChildren().add(exit_button);
+
+        //button animation when mouse hovered over it
+        exit_button.setOnMouseExited(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent exit) {
+                exit1.setFitHeight(80);
+                exit1.setPreserveRatio(true);
+                exit_button.setGraphic(exit1);
+            }
+        });
+        exit_button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent enter) {
+                exit1.setFitHeight(90);
+                exit1.setPreserveRatio(true);
+                exit_button.setGraphic(exit1);
+            }
+        });
+
+        //opening the window to type your name
+        exit_button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Naming.close();
+            }
+        });
+
+        //opening the window to type your name
+        play_button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Naming.show();
+            }
+        });
+
 
         //showing the stage
         Start_Menu.show();
