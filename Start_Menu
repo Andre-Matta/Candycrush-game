@@ -122,6 +122,8 @@ public class Start_Menu extends Application {
         enter_name.setFont(gamefont);
         enter_name.setAlignment(Pos.CENTER);
         enter_name.setStyle("-fx-background-color: #fea9ca; -fx-background-radius: 20;-fx-font-size: 35;");
+        String Name = new String();
+        Name = enter_name.getText();
 
         //entering your name after inputting it
         Button enter = new Button();
