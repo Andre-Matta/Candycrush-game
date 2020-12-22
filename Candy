@@ -18,130 +18,76 @@ import javafx.scene.layout.TilePane;
  *
  * @author Maria
  */
+
 public class Candy {
-     public  String candy_image ;
-     public int type =(int)(6 * Math.random()); 
-     public int x ;
-     public int y ;
-     public ImageView image_view = new ImageView(); 
-     static int count =0;
-    public Candy() {
-      
-    }
-    public void setImage_view(ImageView image_view) {
-       
-        this.image_view = image_view;
-    }
+    static final Image Red = new Image("Images/Red.png");
+    static final Image Yellow = new Image("Images/Yellow.png");
+    static final Image Green = new Image("Images/Green.png");
+    static final Image Blue = new Image("Images/Blue.png");
+    static final Image Purple = new Image("Images/Purple.png");
+    static final Image Orange = new Image("Images/Orange.png");
+    public int type =(int)(6 * Math.random());
+    public int x ;
+    public int y ;
+    public ImageView image_view = new ImageView();
+    static int count =0;
+
+    public Candy() { }
 
     public ImageView getImage_view() {
-         String s = this.getCandy_image();
-        Image image = new Image(s);
-        this.image_view = new ImageView(image);
+        if (this.type == 1){
+            this.image_view = new ImageView(Red);
+        }
+        else if ( this.type == 2){
+            this.image_view = new ImageView(Yellow);
+        }
+        else if ( this.type == 3){
+            this.image_view = new ImageView(Green);
+        }
+        else if ( this.type == 4){
+            this.image_view = new ImageView(Blue);
+        }
+        else if ( this.type == 5){
+            this.image_view = new ImageView(Purple);
+        }
+        else if ( this.type == 0){
+            this.image_view = new ImageView(Orange);
+        }
         return image_view;
     }
-     public void on_click(){
-          this.image_view.setOnMouseClicked(event ->  {
-                count++;
-                });
-     } 
-       public void on_click2(Candy c){
-          this.image_view.setOnMouseClicked(event ->  {
-                count++;
-                this.swapCandy(c);
-                 
-                });
-     } 
-     
-   
 
-    public String getCandy_image() {
-       
-         if (this.type == 1){
-                 this.candy_image = "Images/Red.png";
-                } 
-               else if ( this.type == 2){
-                  this.candy_image = "Images/Yellow.png";
-                } 
-               else if ( this.type == 3){
-                  this.candy_image = "Images/Green.png";
-                } 
-                else if ( this.type == 4){
-                  this.candy_image = "Images/Blue.png";
-                } 
-                else if ( this.type == 5){
-                  this.candy_image  = "Images/Purple.png";
-                } 
-                else if ( this.type == 0){
-                  this.candy_image = "Images/Orange.png";
-                } 
-        return candy_image;
+    public void swapCandy(Candy c1) {
+        Candy temp = new Candy();
+        temp.type=c1.type;
+/*        temp.x = c1.x;
+        temp.y=c1.y;*/
+        c1.type = this.type;
+        c1.getImage_view();
+/*        c1.x = this.x;
+        c1.y = this.y;*/
+/*        System.out.println(c1.x);
+        System.out.println(c1.x);*/
+        this.type = temp.type;
+        this.getImage_view();
+/*        this.x = temp.x;
+        this.y = temp.y;*/
+/*        System.out.println(this.x);
+        System.out.println(this.y);*/
+
+
     }
 
-  
+    public void copy (Candy c ) {
 
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public int getType() {
-        return type;
+        this.x=c.x ;
+        this.y = c.y;
+        this.type = c.type;
+        this.image_view = c.image_view;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void delete(){
+        this.type = -1;
+        this.x =-1;
+        this.y = -1;
     }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-    
-    public  ImageView draw_candy (){   
-       
-        String s = this.getCandy_image();
-        Image image = new Image(s);
-        ImageView imageView = new ImageView(image);
-       
-               return imageView ;
-    }
-    
-     public void swapCandy(Candy c1 ) {
-		Candy temp = new Candy();
-                      temp.x = c1.x;
-                      temp.x =c1.y;
-                      temp.candy_image=c1.candy_image;
-                      temp.type=c1.type;
-                      temp.image_view=c1.image_view;
-                c1.x = this.x;
-                c1.y = this.y;
-                c1.candy_image = this.candy_image;
-                c1.type = this .type;
-                c1.image_view=this.image_view;
-		this.x = temp.x;
-                this.y = temp.y;
-                this.candy_image = temp.candy_image;
-                this.type = temp.type;
-                this.image_view=temp.image_view;
-                
-	}
-      public void copy (Candy c ) {
-		
-                this.x=c.x ;
-                this.y = c.y;
-		this.type = c.type;
-              this.candy_image = c.candy_image;
-	}
-      public void delete(){
-          this.type = -1;
-          this.candy_image = " ";
-          this.x =-1;
-          this.y = -1;
-      }
 }
