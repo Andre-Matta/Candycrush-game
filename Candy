@@ -118,14 +118,17 @@ public class Candy {
                       temp.x =c1.y;
                       temp.candy_image=c1.candy_image;
                       temp.type=c1.type;
+                      temp.image_view=c1.image_view;
                 c1.x = this.x;
                 c1.y = this.y;
                 c1.candy_image = this.candy_image;
                 c1.type = this .type;
+                c1.image_view=this.image_view;
 		this.x = temp.x;
                 this.y = temp.y;
                 this.candy_image = temp.candy_image;
                 this.type = temp.type;
+                this.image_view=temp.image_view;
                 
 	}
       public void copy (Candy c ) {
