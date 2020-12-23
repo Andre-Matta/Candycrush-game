@@ -42,6 +42,8 @@ public class Game_loop extends Transition {
                             isClicked = false;
                         }
                         else{
+                         grid.getChildren().remove(candy[9][9].image_view);
+                           grid.getChildren().remove(candy[x][y].image_view);
                             isClicked = true;
                             candy[x][y].swapCandy(candy[9][9]);
                             grid.add(candy[x][y].getImage_view(), candy[9][9].x, candy[9][9].y);
