@@ -1,0 +1,101 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package project;
+ import javafx.geometry.Rectangle2D;
+ import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+/**
+ *
+ * @author Maria
+ */
+public class Buttons {
+ 
+    final Image image = new Image("Images/Buttons.png");
+     ImageView imageview1 = new ImageView(image);
+     Label label = new Label();
+   float posx, posy, counter;
+    boolean completed;
+
+
+    public Buttons(int counter, boolean b)
+    {
+        
+      // 
+      //  imageview1.setTranslateX(x);
+      //  this.posy = y;
+      //  imageview1.setTranslateY(y);
+        this.completed = b;
+        this.counter = counter;
+        
+        if (counter ==1){ 
+             this.posx = -167;
+             imageview1.setTranslateX(posx);
+             this.posy = 140;
+              imageview1.setTranslateY(posy);
+              label.setText("1");
+              label.setFont(new Font("Arial", 40));
+              label.setTextFill(Color.web("#ffffff"));
+              if (b==true){
+                 label.setTranslateX(posx+3);
+                 label.setTranslateY(posy-15); 
+              }
+              else{
+                  label.setTranslateX(posx -5);
+                 label.setTranslateY(posy-15);
+              }
+        }
+        
+        else if (counter ==2){ 
+             this.posx = 0;
+             imageview1.setTranslateX(posx);
+             this.posy = 170;
+              imageview1.setTranslateY(posy);
+              label.setTranslateX(posx);
+              label.setTranslateY(posy);
+            label.setText("2");
+              label.setFont(new Font("Arial", 40));
+              label.setTextFill(Color.web("#ffffff"));
+              if (b==true){
+                 label.setTranslateX(posx+3);
+                 label.setTranslateY(posy-15); 
+              }
+              else{
+                  label.setTranslateX(posx -5);
+                 label.setTranslateY(posy-15);
+              }
+        }
+    }
+
+    
+    public void setImageview()
+    {
+        if (completed) {
+            imageview1.setViewport(new Rectangle2D(107, 0, 107, 90));
+        }
+        else {
+            imageview1.setViewport(new Rectangle2D(0, 0, 107, 90));
+        }
+    }
+
+    public ImageView getImageview1() {
+        return imageview1;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    
+
+
+}
+
+
+
