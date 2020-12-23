@@ -1,5 +1,4 @@
 import javafx.animation.Animation;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,7 +8,6 @@ import javafx.application.Application;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -18,139 +16,29 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.animation.Interpolator;
-import javafx.animation.Transition;
 import javafx.geometry.Rectangle2D;
 import javafx.util.Duration;
 import java.io.File;
 
 
-public class Start_Menu extends Application {
-
-    public void Levels_scene() throws Exception
-    {
-
-    }
-
-    public void Naming_menu(Stage Start_Menu, Button play_button, Image play) throws Exception
-    {
-        //Creating new window to write your name in
-        Stage Naming = new Stage();
-        Naming.setWidth(400);
-        Naming.setHeight(500);
-        Naming.initOwner(Start_Menu);
-        Naming.initModality(Modality.WINDOW_MODAL);
-        Naming.initStyle(StageStyle.TRANSPARENT);
-
-        //opening the window to type your name
-        play_button.setOnMouseClicked(mouseEvent -> Naming.show());
-
-        //creating the pop-up window to write your name in
-        StackPane parent1 = new StackPane();
-        Scene naming = new Scene(parent1);
-        naming.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
-        parent1.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;" );
-        naming.setFill(Color.TRANSPARENT);
-        Naming.setScene(naming);
-        Image name_menu = new Image("Images/Name_menu.png");
-        ImageView name_menu1 = new ImageView(name_menu);
-        parent1.getChildren().add(name_menu1);
-
-        naming.getStylesheets().add("Stylesheets/Background.css");
-
-        //adding text above entering name field
-        Font game_font = Font.loadFont("n.ttf", 10);
-        Label type_your_name =new Label("Type your name");
-        type_your_name.setTranslateX(-15);
-        type_your_name.setTranslateY(-150);
-        type_your_name.setStyle("-fx-background-color: transparent; -fx-font-size: 60; " +
-                "Color: #753a19; -fx-font-family: 'Brush Script MT'");
-
-        //field to type your name
-        TextField enter_name = new TextField();
-        enter_name.setTranslateX(-10);
-        enter_name.setTranslateY(-70);
-        enter_name.setMaxWidth(300);
-        enter_name.setMaxHeight(20);
-        enter_name.setAlignment(Pos.CENTER);
-        enter_name.setStyle("-fx-background-color: #fea9ca; -fx-background-radius: 20;-fx-font-size: 45;" +
-                "-fx-font-family: 'Brush Script MT';");
-        String Name = new String();
-        Name = enter_name.getText();
-
-        //entering your name after inputting it
-        Button enter = new Button();
-        ImageView enter1 = new ImageView(play);
-        enter.setGraphic(enter1);
-        enter.setTranslateX(-10);
-        enter.setTranslateY(170);
-        enter.setStyle("-fx-background-color: transparent");
-
-        //button animation when mouse hovered over it
-        enter.setOnMouseExited(mouse -> {
-            enter1.setFitHeight(69);
-            enter1.setPreserveRatio(true);
-            enter.setGraphic(enter1);
-        });
-        enter.setOnMouseEntered(mouse -> {
-            enter1.setFitHeight(80);
-            enter1.setPreserveRatio(true);
-            enter.setGraphic(enter1);
-        });
-
-        //adding the exit button
-        Image Exit = new Image("Images/Exit.png");
-        ImageView exit1 = new ImageView(Exit);
-        Button exit_button = new Button();
-        exit_button.setGraphic(exit1);
-        exit_button.setStyle("  -fx-background-color: transparent;");
-        exit_button.setTranslateX(165);
-        exit_button.setTranslateY(-205);
-
-        //button animation when mouse hovered over it
-        exit_button.setOnMouseExited(exit -> {
-            exit1.setFitHeight(52);
-            exit1.setPreserveRatio(true);
-            exit_button.setGraphic(exit1);
-        });
-        exit_button.setOnMouseEntered(enter2 -> {
-            exit1.setFitHeight(60);
-            exit1.setPreserveRatio(true);
-            exit_button.setGraphic(exit1);
-        });
-
-        //closing the window in which you typed your name
-        exit_button.setOnMouseClicked(mouseEvent -> {
-            Naming.close();
-            enter_name.setText("");
-        });
-
-
-        //adding the exit button to the window
-        parent1.getChildren().addAll(enter_name, type_your_name, enter, exit_button);
-    }
-
+public class Game_class extends Application {
 
     @Override
-    public void init() throws Exception {
-        System.out.println("Hello World");
-    }
-
-    @Override
-    public void start(Stage Start_Menu) throws Exception {
+    public void start(Stage Game_window) throws Exception
+    {
         //creating the stage
-        Start_Menu.setTitle("Candy Crush");
-        Start_Menu.getIcons().add(new Image("Images/Icon.png"));
-        Start_Menu.setWidth(900);
-        Start_Menu.setHeight(800);
+        Game_window.setTitle("Candy Crush");
+        Game_window.getIcons().add(new Image("Images/Icon.png"));
+        Game_window.setWidth(900);
+        Game_window.setHeight(800);
 
         //setting the scene
         StackPane parent = new StackPane();
-        Scene scene1 = new Scene(parent);
-        Start_Menu.setScene(scene1);
+        Scene Start_menu = new Scene(parent);
+        Game_window.setScene(Start_menu);
 
         //changing the cursor of the game
-        scene1.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
+        Start_menu.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
 
         //adding background to the game
         Image background = new Image("Images/Background.png");
@@ -158,8 +46,8 @@ public class Start_Menu extends Application {
         parent.getChildren().add(background1);
 
         //start menu sound
-        String uriString = new File("C:\\Users\\Andy\\Downloads").toURI().toString();
-        MediaPlayer mediaPlayer = new MediaPlayer(new Media(uriString));
+        //String uriString = new File("C:\\Users\\Andy\\Downloads\\candy_sound.mp3").toURI().toString();
+        //MediaPlayer  media_player = new MediaPlayer(new Media(uriString));
 
 
         //Making the play button
@@ -200,9 +88,126 @@ public class Start_Menu extends Application {
         });
 
         //accessing the menu where you type your name
-        Naming_menu(Start_Menu, play_button, play);
+        Naming_menu(Game_window, play_button, play);
 
         //showing the stage
-        Start_Menu.show();
+        Game_window.show();
     }
+
+    public void Naming_menu(Stage Game_window, Button play_button, Image play) throws Exception
+    {
+        //Creating new window to write your name in
+        Stage Naming = new Stage();
+        Naming.setWidth(400);
+        Naming.setHeight(500);
+        Naming.initOwner(Game_window);
+        Naming.initModality(Modality.WINDOW_MODAL);
+        Naming.initStyle(StageStyle.TRANSPARENT);
+
+        //opening the window to type your name
+        play_button.setOnMouseClicked(mouseEvent -> Naming.show());
+
+        //creating the pop-up window to write your name in
+        StackPane parent1 = new StackPane();
+        Scene naming = new Scene(parent1);
+        naming.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
+        parent1.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;" );
+        naming.setFill(Color.TRANSPARENT);
+        Naming.setScene(naming);
+        Image name_menu = new Image("Images/Name_menu.png");
+        ImageView name_menu1 = new ImageView(name_menu);
+        parent1.getChildren().add(name_menu1);
+
+        naming.getStylesheets().add("Stylesheets/Background.css");
+
+        //adding text above entering name field
+        Font game_font = Font.loadFont("Fonts/n.ttf", 10);
+        Label type_your_name =new Label("Type your name");
+        type_your_name.setTranslateX(-15);
+        type_your_name.setTranslateY(-150);
+        type_your_name.setStyle("-fx-background-color: transparent; -fx-font-size: 60; " +
+                "Color: #753a19; -fx-font-family: 'Brush Script MT'");
+
+        //field to type your name
+        TextField enter_name = new TextField();
+        enter_name.setTranslateX(-10);
+        enter_name.setTranslateY(-70);
+        enter_name.setMaxWidth(300);
+        enter_name.setMaxHeight(20);
+        enter_name.setAlignment(Pos.CENTER);
+        enter_name.setStyle("-fx-background-color: #fea9ca; -fx-background-radius: 20;-fx-font-size: 45;" +
+                "-fx-font-family: 'Brush Script MT';");
+
+        //submitting your name after inputting it
+        Button enter = new Button();
+        ImageView enter1 = new ImageView(play);
+        enter.setGraphic(enter1);
+        enter.setTranslateX(-10);
+        enter.setTranslateY(170);
+        enter.setStyle("-fx-background-color: transparent");
+
+        //button animation when mouse hovered over it
+        enter.setOnMouseExited(mouse -> {
+            enter1.setFitHeight(69);
+            enter1.setPreserveRatio(true);
+            enter.setGraphic(enter1);
+        });
+        enter.setOnMouseEntered(mouse -> {
+            enter1.setFitHeight(80);
+            enter1.setPreserveRatio(true);
+            enter.setGraphic(enter1);
+        });
+
+        //entering the next scene and save the name of the player
+        enter.setOnMouseClicked(mouseEvent -> {
+            String Name = new String();
+            Name = enter_name.getText();
+            Naming.close();
+
+            //Accessing the Level select scene
+            Levels_scene(Game_window);
+        });
+
+        //adding the exit button
+        Image Exit = new Image("Images/Exit.png");
+        ImageView exit1 = new ImageView(Exit);
+        Button exit_button = new Button();
+        exit_button.setGraphic(exit1);
+        exit_button.setStyle("  -fx-background-color: transparent;");
+        exit_button.setTranslateX(165);
+        exit_button.setTranslateY(-205);
+
+        //button animation when mouse hovered over it
+        exit_button.setOnMouseExited(exit -> {
+            exit1.setFitHeight(52);
+            exit1.setPreserveRatio(true);
+            exit_button.setGraphic(exit1);
+        });
+        exit_button.setOnMouseEntered(enter2 -> {
+            exit1.setFitHeight(60);
+            exit1.setPreserveRatio(true);
+            exit_button.setGraphic(exit1);
+        });
+
+        //closing the window in which you typed your name
+        exit_button.setOnMouseClicked(mouseEvent -> {
+            Naming.close();
+            enter_name.setText("");
+        });
+
+        //adding the exit button to the window
+        parent1.getChildren().addAll(enter_name, type_your_name, enter, exit_button);
+    }
+
+    public void Levels_scene(Stage Game_window)
+    {
+        StackPane parent2 = new StackPane();
+        Scene Level_select = new Scene(parent2);
+        Level_select.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
+        Game_window.setScene(Level_select);
+        ImageView level_select1 = new ImageView(new Image("Images/Level_select.png"));
+        parent2.getChildren().add(level_select1);
+
+    }
+
 }
