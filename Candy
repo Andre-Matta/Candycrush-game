@@ -56,21 +56,21 @@ public class Candy {
         return image_view;
     }
 
-    public void swapCandy(Candy c1) {
+   public void swapCandy(Candy c1) {
         Candy temp = new Candy();
         temp.type=c1.type;
-/*        temp.x = c1.x;
-        temp.y=c1.y;*/
+        temp.x = c1.x;
+        temp.y=c1.y;
         c1.type = this.type;
         c1.getImage_view();
-/*        c1.x = this.x;
-        c1.y = this.y;*/
+        c1.x = this.x;
+        c1.y = this.y;
 /*        System.out.println(c1.x);
         System.out.println(c1.x);*/
         this.type = temp.type;
         this.getImage_view();
-/*        this.x = temp.x;
-        this.y = temp.y;*/
+       this.x = temp.x;
+        this.y = temp.y;
 /*        System.out.println(this.x);
         System.out.println(this.y);*/
 
