@@ -27,11 +27,11 @@ public class Game_loop extends Transition {
 
     protected void interpolate(double k)
     {
-
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
+                candy[i][j].x = i;
+                candy[i][j].y = j;
                 final int x = i , y = j;
-
                 candy[x][y].image_view.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
