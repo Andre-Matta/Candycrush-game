@@ -23,17 +23,20 @@ import java.io.File;
 
 public class Game_class extends Application
 {
-    static int level_counter = 2;
+    static int level_counter = 2 , posx = -240, posy = 0;
     static boolean lvl1 = false , lvl2 = false;
+    Stage Game_window = new Stage();
+    Image play = new Image("Images/Play_button.png");
 
     @Override
-    public void start(Stage Game_window) throws Exception
+    public void start(Stage start) throws Exception
     {
             //creating the stage
             Game_window.setTitle("Candy Crush");
             Game_window.getIcons().add(new Image("Images/Icon.png"));
             Game_window.setWidth(900);
             Game_window.setHeight(800);
+            Game_window.centerOnScreen();
 
             //setting the scene
             StackPane parent = new StackPane();
@@ -49,12 +52,13 @@ public class Game_class extends Application
             parent.getChildren().add(background1);
 
             //start menu sound
-            //String uriString = new File("C:\\Users\\Andy\\Downloads\\candy_sound.mp3").toURI().toString();
-            //MediaPlayer  media_player = new MediaPlayer(new Media(uriString));
+            //String uriString = new File("Music/candy_sound.mp3").toURI().toString();
+            //Media media = new Media(uriString);
+            //MediaPlayer  media_player = new MediaPlayer(media);
+            //media_player.setAutoPlay(true);
 
 
             //Making the play button
-            Image play = new Image("Images/Play_button.png");
             ImageView play1 = new ImageView(play);
             Button play_button = new Button();
             play_button.setGraphic(play1);
@@ -91,13 +95,13 @@ public class Game_class extends Application
             });
 
             //accessing the menu where you type your name
-            Naming_menu(Game_window, play_button, play);
+            Naming_menu( play_button);
 
             //showing the stage
             Game_window.show();
     }
 
-    public void Naming_menu(Stage Game_window, Button play_button, Image play) throws Exception
+    public void Naming_menu(Button play_button) throws Exception
     {
         //Creating new window to write your name in
         Stage Naming = new Stage();
@@ -113,12 +117,12 @@ public class Game_class extends Application
         //creating the pop-up window to write your name in
         StackPane parent1 = new StackPane();
         Scene naming = new Scene(parent1);
-        naming.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
         parent1.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;" );
         naming.setFill(Color.TRANSPARENT);
         Naming.setScene(naming);
         Image name_menu = new Image("Images/Name_menu.png");
         ImageView name_menu1 = new ImageView(name_menu);
+        naming.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
         parent1.getChildren().add(name_menu1);
 
         naming.getStylesheets().add("Stylesheets/Background.css");
@@ -168,9 +172,7 @@ public class Game_class extends Application
             Naming.close();
 
             //Accessing the Level select scene
-            Levels_scene(Game_window);
-            System.out.println("Hi");
-            Levels_scene(Game_window);
+            Levels_scene();
         });
 
         //adding the exit button
@@ -204,13 +206,14 @@ public class Game_class extends Application
         parent1.getChildren().addAll(enter_name, type_your_name, enter, exit_button);
     }
 
-    public void Levels_scene(Stage Game_window)
+    public void Levels_scene()
     {
         //creating the level select scene
         StackPane parent2 = new StackPane();
         Scene Level_select = new Scene(parent2);
-        Level_select.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
         Game_window.setScene(Level_select);
+        Level_select.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
+
         ImageView level_select1 = new ImageView(new Image("Images/Level_select.png"));
         parent2.getChildren().add(level_select1);
 
@@ -229,7 +232,7 @@ public class Game_class extends Application
         animation.play();
 
         Buttons level1_button = new Buttons(-167, 140, 1 ,lvl1);
-        Buttons level2_button = new Buttons(-0, 170, 2 ,lvl2);
+        Buttons level2_button = new Buttons(0, 170, 2 ,lvl2);
 
         level1_button.imageview1.setOnMouseExited(exit -> {
             level1_button.imageview1.setFitHeight(90);
@@ -252,8 +255,10 @@ public class Game_class extends Application
             level1_button.label.setFont(new Font("Brush Script MT", 45));
         });
 
-        level1_button.imageview1.setOnMousePressed(mouseEvent -> {
+        level1_button.imageview1.setOnMouseClicked(mouseEvent -> {
             lvl1 = true;
+            Starting_level(1);
+            if (lvl1 == false)
             level_counter ++;
             level1_button.completed=true;
             level1_button.setimageview();
@@ -265,6 +270,8 @@ public class Game_class extends Application
         });
         level1_button.label.setOnMouseClicked(mouseEvent -> {
             lvl1 = true;
+            Starting_level(1);
+            if (lvl1 == false)
             level_counter ++;
             level1_button.completed=true;
             level1_button.setimageview();
@@ -300,47 +307,148 @@ public class Game_class extends Application
                 level2_button.imageview1.setPreserveRatio(true);
                 level2_button.label.setFont(new Font("Brush Script MT", 45));
             });
+
+            level2_button.imageview1.setOnMouseClicked(mouseEvent -> {
+                lvl2 = true;
+                Starting_level(2);
+                if (lvl2 == false)
+                level_counter ++;
+                level2_button.completed=true;
+                level2_button.setimageview();
+                parent2.getChildren().removeAll(level2_button.imageview1, level2_button.label);
+                parent2.getChildren().add(level2_button.imageview1);
+                parent2.getChildren().add(level2_button.label);
+            });
+            level2_button.label.setOnMouseClicked(mouseEvent -> {
+                lvl2 = true;
+                Starting_level(2);
+                if (lvl2 == false)
+                level_counter ++;
+                level2_button.completed=true;
+                level2_button.setimageview();
+                parent2.getChildren().removeAll(level2_button.imageview1, level2_button.label);
+                parent2.getChildren().add(level2_button.imageview1);
+                parent2.getChildren().add(level2_button.label);
+            });
         }
 
     }
 
-   /* public void Level1(Stage Game_window)
+    public void Starting_level(int lvl)
     {
+        //Creating new window to tell you the target and starting the level
+        Stage starting = new Stage();
+        starting.setWidth(400);
+        starting.setHeight(500);
+        starting.initOwner(Game_window);
+        starting.initModality(Modality.WINDOW_MODAL);
+       // starting.initStyle(StageStyle.TRANSPARENT);
+        starting.show();
 
+        //creating the scene in the window
+        StackPane parent4 = new StackPane();
+        Scene selecting = new Scene(parent4);
+        parent4.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;" );
+        selecting.setFill(Color.TRANSPARENT);
+        starting.setScene(selecting);
+
+        Image selecting_menu = new Image("Images/Level_Start.png");
+        ImageView selecting_menu1 = new ImageView(selecting_menu);
+        selecting_menu1.setViewport(new Rectangle2D(0, 0, 400, 500));
+        parent4.getChildren().add(selecting_menu1);
+
+        //adding the number of the level
+        String s = String.valueOf(lvl);
+        Label lvl_num =new Label(s);
+        lvl_num.setTranslateX(20);
+        lvl_num.setTranslateY(-165);
+        lvl_num.setStyle("-fx-background-color: transparent; -fx-font-size: 25; " +
+                "Color: #003a81; -fx-font-family: 'Brush Script MT'");
+
+        //submitting your name after inputting it
+        ImageView enter2 = new ImageView(play);
+        enter2.setTranslateX(-10);
+        enter2.setTranslateY(170);
+        enter2.setStyle("-fx-background-color: transparent");
+
+        //button animation when mouse hovered over it
+        enter2.setOnMouseExited(mouse -> {
+            enter2.setFitHeight(69);
+            enter2.setPreserveRatio(true);
+        });
+        enter2.setOnMouseEntered(mouse -> {
+            enter2.setFitHeight(80);
+            enter2.setPreserveRatio(true);
+        });
+
+        //entering the next scene and save the name of the player
+        enter2.setOnMouseClicked(mouseEvent -> {
+            starting.close();
+            //Accessing the Level select scene
+            Level1();
+        });
+
+        //adding the exit button
+        ImageView exit1 = new ImageView(selecting_menu);
+        exit1.setViewport(new Rectangle2D(400, 0, 40, 41));
+        exit1.setStyle("  -fx-background-color: transparent;");
+        exit1.setTranslateX(150);
+        exit1.setTranslateY(-170);
+
+        //button animation when mouse hovered over it
+        exit1.setOnMouseExited(exit -> {
+            exit1.setFitHeight(41);
+            exit1.setPreserveRatio(true);
+        });
+        exit1.setOnMouseEntered(enter -> {
+            exit1.setFitHeight(50);
+            exit1.setPreserveRatio(true);
+        });
+
+        //closing the window in which you typed your name
+        exit1.setOnMouseClicked(mouseEvent -> {
+            starting.close();
+        });
+
+        //adding the exit button to the window
+        parent4.getChildren().addAll(lvl_num, enter2, exit1);
+    }
+
+    public void Level1()
+    {
         //setting the scene
-        StackPane parent = new StackPane();
-        Scene scene1 = new Scene(parent);
-        Game_window.setScene(scene1);
+        StackPane parent3 = new StackPane();
+        Scene level1 = new Scene(parent3);
+        Game_window.setScene(level1);
 
         //changing the cursor of the game
         Image hand = new Image("Images/Cursor.png");
-        scene1.setCursor(new ImageCursor(hand));
+        level1.setCursor(new ImageCursor(hand));
 
         //adding background to the game
         Image background = new Image("Images/Level1_Background.png");
         ImageView background1 = new ImageView(background);
-        parent.getChildren().add(background1);
+        parent3.getChildren().add(background1);
 
         Candy[][] candy;
         candy = new Candy[10][10];
 
         for (int i = 0; i < 8; i++) {
+
             if(i!=0)
                 posx+=90;
-            posy=-205;
+                posy=-205;
             for (int j = 0; j < 8; j++) {
                 if(j!=0)
                     posy+=71;
                 candy[i][j] = new Candy(posx, posy);
-                parent.getChildren().addAll(candy[i][j].image_view);
+                parent3.getChildren().addAll(candy[i][j].image_view);
             }
         }
 
-        final Animation animation = new Game_loop(Duration.millis(700), candy, parent, background1) {};
+        final Animation animation = new Game_loop(Duration.millis(700), candy, parent3, background1) {};
         animation.setCycleCount(Animation.INDEFINITE);
         animation.play();
+    }
 
-        //showing the stage
-        Level1.show();
-    }*/
 }
