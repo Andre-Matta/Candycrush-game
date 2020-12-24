@@ -3,57 +3,48 @@ import javafx.animation.Transition;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class Game_loop extends Transition {
 
     Candy candy[][];
-    GridPane grid ;
-    StackPane parent;
+    StackPane parent3;
+    ImageView background1;
 
     static boolean isClicked = true;
 
-    public Game_loop(Duration duration, Candy candy[][], GridPane grid, StackPane parent)
+    public Game_loop(Duration duration, Candy candy[][], StackPane parent3, ImageView background1)
     {
         setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
         this.candy = candy;
-        this.grid = grid;
-        this.parent = parent;
+        this.parent3 = parent3;
+        this.background1 = background1;
     }
 
     protected void interpolate(double k)
     {
+
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                candy[i][j].x = i;
-                candy[i][j].y = j;
                 final int x = i , y = j;
+
                 candy[x][y].image_view.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         if (isClicked) {
-                            candy[9][9] = candy[x][y];
-                            System.out.println(candy[9][9].x);
-                            System.out.println(candy[9][9].y);
                             isClicked = false;
+                            candy[9][9] = candy[x][y];
                         }
-                        else{
-                         grid.getChildren().remove(candy[9][9].image_view);
-                           grid.getChildren().remove(candy[x][y].image_view);
-                            isClicked = true;
-                            candy[x][y].swapCandy(candy[9][9]);
-                            grid.add(candy[x][y].getImage_view(), candy[9][9].x, candy[9][9].y);
-                            grid.add(candy[9][9].getImage_view(), candy[x][y].x, candy[x][y].y);
-                            AnchorPane anchor_pane = new AnchorPane(grid);
-                            AnchorPane.setTopAnchor(grid, 133.0);
-                            AnchorPane.setLeftAnchor(grid, 175.0);
-                            AnchorPane.setRightAnchor(grid, 0.0);
-                            AnchorPane.setBottomAnchor(grid, 0.0);
-                            parent.getChildren().add(anchor_pane);
+                        else {
+                            if ((candy[x][y].x != candy[9][9].x
+                                    || candy[x][y].y != candy[9][9].y)) {
+                                isClicked = true;
+                                candy[x][y].swapCandy(candy[9][9]);
+                                parent3.getChildren().removeAll(candy[x][y].image_view, candy[9][9].image_view);
+                                parent3.getChildren().addAll(candy[x][y].image_view, candy[9][9].image_view);
+                            }
                         }
                     }
                 });
