@@ -1,3 +1,5 @@
+
+
 import javafx.animation.Animation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -19,11 +21,17 @@ import javafx.stage.StageStyle;
 import javafx.geometry.Rectangle2D;
 import javafx.util.Duration;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.layout.VBox;
 
 
 public class Game_class extends Application
 {
-    static int level_counter = 2 , posx = -240, posy = 0;
+    static int level_counter = 2 , posx = -30, posy ;
     static boolean lvl1 = false , lvl2 = false;
     Stage Game_window = new Stage();
     Image play = new Image("Images/Play_button.png");
@@ -64,6 +72,14 @@ public class Game_class extends Application
             play_button.setGraphic(play1);
             play_button.setStyle("  -fx-background-color: transparent;");
             play_button.setTranslateY(118);
+            
+            //Making the history button
+            Image history = new Image("Images/Play_button.png");
+            ImageView history1 = new ImageView(history);
+            Button history_button = new Button();
+            history_button.setGraphic(history1);
+            history_button.setStyle("  -fx-background-color: transparent;");
+            history_button.setTranslateY(225);
 
             //the animation of the jumping girl
             Image girl_jumping = new Image("Images/Candy_girl.png");
@@ -80,7 +96,7 @@ public class Game_class extends Application
             animation.play();
 
             //adding the button to the stage
-            parent.getChildren().addAll(play_button, girl_jumping1);
+            parent.getChildren().addAll(play_button, girl_jumping1,history_button);
 
             //button animation when mouse hovered over it
             play_button.setOnMouseExited(exit -> {
@@ -93,10 +109,22 @@ public class Game_class extends Application
                 play1.setPreserveRatio(true);
                 play_button.setGraphic(play1);
             });
+              //button animation when mouse hovered over it
+            history_button.setOnMouseExited(exit -> {
+                history1.setFitHeight(69);
+                history1.setPreserveRatio(true);
+                history_button.setGraphic(history1);
+            });
+            history_button.setOnMouseEntered(enter -> {
+               history1.setFitHeight(80);
+               history1.setPreserveRatio(true);
+                history_button.setGraphic(history1);
+            });
 
             //accessing the menu where you type your name
             Naming_menu( play_button);
-
+                   //accessing the menu where you type your name
+            history_menu( history_button,  history);
             //showing the stage
             Game_window.show();
     }
@@ -165,16 +193,39 @@ public class Game_class extends Application
             enter.setGraphic(enter1);
         });
 
-        //entering the next scene and save the name of the player
+       //entering the next scene and save the name of the player
         enter.setOnMouseClicked(mouseEvent -> {
-            String Name = new String();
-            Name = enter_name.getText();
+           
+            FileWriter file_writer = null;
+            try {
+                String Name = new String();
+                Name = "    "+enter_name.getText();
+                File file = new File("out.txt");
+                  file_writer = new FileWriter(file,true);
+                  
+                   PrintWriter outputStream;
+                      outputStream = new PrintWriter(file_writer);
+                      outputStream.println(Name);
+                      outputStream.close();
+     
+            } 
+            catch (IOException ex) {
+                Logger.getLogger(Game_class.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    file_writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Game_class.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             Naming.close();
 
             //Accessing the Level select scene
             Levels_scene();
         });
 
+        
+        
         //adding the exit button
         Image Exit = new Image("Images/Exit.png");
         ImageView exit1 = new ImageView(Exit);
@@ -201,10 +252,47 @@ public class Game_class extends Application
             Naming.close();
             enter_name.setText("");
         });
-
+         
         //adding the exit button to the window
         parent1.getChildren().addAll(enter_name, type_your_name, enter, exit_button);
     }
+    
+     public void history_menu(Button  history_button, Image  history_image) throws Exception
+    {
+        //Creating new window to write your name in
+        Stage  history = new Stage();
+         history.setWidth(500);
+         history.setHeight(600);
+         history.initOwner(Game_window);
+         history.initModality(Modality.WINDOW_MODAL);
+      
+
+        //opening the window to type your name
+         history_button.setOnMouseClicked(mouseEvent ->  history.show());
+
+        //creating the pop-up window to write your name in
+        StackPane parent1 = new StackPane();
+        Scene  History = new Scene(parent1);
+        History.setCursor(new ImageCursor(new Image("Images/Cursor.png")));
+        parent1.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 10;" );
+         History.setFill(Color.TRANSPARENT);
+         history.setScene(History);
+        Image history_img = new Image("Images/History.png");
+        ImageView img = new ImageView(history_img);
+        parent1.getChildren().add(img);
+
+         History.getStylesheets().add("Stylesheets/Background.css");
+  
+
+        VBox vbox = new VBox();
+   
+        vbox= TypeText.type();
+        
+        //adding the exit button to the window
+       
+        parent1.getChildren().add(vbox);
+    }
+
 
     public void Levels_scene()
     {
@@ -433,15 +521,17 @@ public class Game_class extends Application
         Candy[][] candy;
         candy = new Candy[10][10];
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 4; i++) {
 
             if(i!=0)
-                posx+=90;
-                posy=-205;
-            for (int j = 0; j < 8; j++) {
+                posx+=100;
+            
+                posy=-100;
+            for (int j = 0; j < 4; j++) {
                 if(j!=0)
-                    posy+=71;
+                    posy+=90;
                 candy[i][j] = new Candy(posx, posy);
+               
                 parent3.getChildren().addAll(candy[i][j].image_view);
             }
         }
@@ -450,5 +540,5 @@ public class Game_class extends Application
         animation.setCycleCount(Animation.INDEFINITE);
         animation.play();
     }
-
+  
 }
