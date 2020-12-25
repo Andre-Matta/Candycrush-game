@@ -1,0 +1,120 @@
+import javafx.scene.layout.GridPane;
+
+/**
+ *
+ * @author Maria
+ */
+public class Level_functions {
+    static public void horizontal_check(int row,int col,Candy candy[][]){
+        // 2 on right
+        if(col<=1&&candy[row][col].type==candy[row][col+1].type&&candy[row][col].type==candy[row][col+2].type){
+             candy[row][col].type=10;
+             candy[row][col+1].type=10;
+             candy[row][col+2].type=10;
+             removeCrushedCandy(candy , row, col);
+             removeCrushedCandy(candy , row, col+1);
+             removeCrushedCandy(candy , row, col+2);
+        }
+            
+        
+        else if(col>=2&&candy[row][col].type==candy[row][col-1].type&&candy[row][col].type==candy[row][col-2].type){
+            candy[row][col].type=10;
+             candy[row][col-1].type=10;
+             candy[row][col-2].type=10;
+              removeCrushedCandy(candy , row, col);
+              removeCrushedCandy(candy , row, col-1);
+              removeCrushedCandy(candy , row, col-2);
+        }
+           
+        
+        else if(col>=1&&col<=2&&candy[row][col].type==candy[row][col-1].type&&candy[row][col].type==candy[row][col+1].type){
+            candy[row][col].type=10;
+             candy[row][col+1].type=10;
+             candy[row][col-1].type=10;
+              removeCrushedCandy(candy , row, col);
+              removeCrushedCandy(candy , row, col-1);
+             removeCrushedCandy(candy , row, col+1);
+        }
+            
+ 
+    }
+    static public void vertical_check(int row,int col,Candy candy[][]){
+        //2 on top
+		if (row >= 2 && candy[row-1][col].type == candy[row][col].type && candy[row-2][col].type == candy[row][col].type){
+                   candy[row][col].type=10;
+                   candy[row-1][col].type=10;
+                   candy[row-2][col].type=10; 
+                   removeCrushedCandy(candy , row, col);
+                   removeCrushedCandy(candy , row-2, col);
+                   removeCrushedCandy(candy , row-2, col);
+                }
+			
+		//2 on bottom
+		else if(row <=1 && candy[row+1][col].type == candy[row][col].type && candy[row+2][col].type == candy[row][col].type){
+                    candy[row][col].type=10;
+                    candy[row+1][col].type=10;
+                    candy[row+2][col].type=10;
+                    removeCrushedCandy(candy , row, col);
+                    removeCrushedCandy(candy , row+1, col);
+                    removeCrushedCandy(candy , row+2, col);
+           
+                }
+			
+		//1 each on top and bottom
+		else if(row >= 1 && row <=2 &&candy[row+1][col].type == candy[row][col].type && candy[row-1][col].type == candy[row][col].type){
+                    candy[row][col].type=10;
+                    candy[row+1][col].type=10;
+                    candy[row-1][col].type=10;
+                    removeCrushedCandy(candy , row, col);
+                    removeCrushedCandy(candy , row+1, col);
+                    removeCrushedCandy(candy , row-1, col);
+                 
+                }
+			
+		
+	}   
+    static public void removeCrushedCandy(Candy candy[][] , int row, int col) {
+
+			for (int j = col; ; j--) {
+                            if (j == 0){
+                                candy[row][j].type =10;
+                                break;
+                            }
+			    candy[row][j].type= candy[row][j-1].type ;
+			}
+
+		
+	}
+      
+    static public boolean bool_horizontal_check(int row,int col,Candy candy[][]){
+        // 2 on right
+        if(col<=1&&candy[row][col].type==candy[row][col+1].type&&candy[row][col].type==candy[row][col+2].type)
+            return true;
+        
+        else if(col>=2&&candy[row][col].type==candy[row][col-1].type&&candy[row][col].type==candy[row][col-2].type)
+            return true;
+        
+        else if(col>=1&&col<=2&&candy[row][col].type==candy[row][col-1].type&&candy[row][col].type==candy[row][col+1].type)
+            return true;
+        
+        else 
+            return false;
+    }
+    static public boolean bool_vertical_check(int row,int col,Candy candy[][]){
+        //2 on top
+		if (row >= 2 && candy[row-1][col].type == candy[row][col].type && candy[row-2][col].type == candy[row][col].type)
+			return true;
+		//2 on bottom
+		else if(row <=1 && candy[row+1][col].type == candy[row][col].type && candy[row+2][col].type == candy[row][col].type)
+			return true;
+		//1 each on top and bottom
+		else if(row >= 1 && row <=2 &&candy[row+1][col].type == candy[row][col].type && candy[row-1][col].type == candy[row][col].type)
+			return true;
+		else
+			return false;
+	}
+        
+        
+   
+		
+} 
