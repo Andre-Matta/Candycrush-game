@@ -1,3 +1,6 @@
+
+package project;
+
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.event.EventHandler;
@@ -5,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import static project.Level_functions.bool_horizontal_check;
+import static project.Level_functions.bool_vertical_check;
 
 public class Game_loop extends Transition {
 
@@ -26,10 +31,12 @@ public class Game_loop extends Transition {
     protected void interpolate(double k)
     {
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 final int x = i , y = j;
-
+                candy[i][j].getImage_view();
+               Level_functions.horizontal_check(x, y, candy);
+               Level_functions.vertical_check(x, y, candy);    
                 candy[x][y].image_view.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -40,10 +47,30 @@ public class Game_loop extends Transition {
                         else {
                             if ((candy[x][y].x != candy[9][9].x
                                     || candy[x][y].y != candy[9][9].y)) {
+                                
                                 isClicked = true;
                                 candy[x][y].swapCandy(candy[9][9]);
+                                // System.out.println(candy[x][y].);
+                                if(candy[x][y].i == candy[9][9].i
+                                    || candy[x][y].j == candy[9][9].j){
+                                  if (bool_horizontal_check(x,y,candy)||bool_vertical_check(x,y,candy) 
+                                        || bool_horizontal_check(candy[9][9].i,candy[9][9].j,candy)||bool_vertical_check(candy[9][9].i,candy[9][9].j,candy)  ){
+                                  
+                                    } 
+                                  else{
+                                     candy[9][9].swapCandy(candy[x][y]);
+                                      System.out.println("Wrong swap");
+                                    }
+                               
+                                }
+                                 else{
+                                     candy[9][9].swapCandy(candy[x][y]);
+                                      System.out.println("Wrong swap");
+                                }
+                                
                                 parent3.getChildren().removeAll(candy[x][y].image_view, candy[9][9].image_view);
                                 parent3.getChildren().addAll(candy[x][y].image_view, candy[9][9].image_view);
+                                
                             }
                         }
                     }
