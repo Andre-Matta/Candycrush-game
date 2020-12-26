@@ -3,7 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafxapplication2;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package project;
+
 
 import java.beans.EventHandler;
 import javafx.event.ActionEvent;
@@ -24,9 +30,10 @@ public class Candy {
     static final Image Purple = new Image("Images/Purple.png");
     static final Image Orange = new Image("Images/Orange.png");*/
     static final Image Colors = new Image("Images/colors.png");
-    public int type =(int)(6 * Math.random());
+    public int type =(int)(5 * Math.random());
     public int x ;
     public int y ;
+    public int i , j;
     public ImageView image_view = new ImageView(Colors);
 
     public Candy(int x, int y)
@@ -34,6 +41,10 @@ public class Candy {
         this.x=x;
         this.y=y;
         this.getImage_view();
+        i = (x+30)/100;
+        j= (y+100)/90;
+        
+        
     }
 
     public void getImage_view() {
@@ -62,10 +73,10 @@ public class Candy {
             this.image_view.setTranslateX(x);
             this.image_view.setTranslateY(y);
         }
-        else if ( this.type == 0){
-            this.image_view.setViewport(new Rectangle2D(345, 0, 69, 63));
-            this.image_view.setTranslateX(x);
-            this.image_view.setTranslateY(y);
+      
+        else{
+          type =(int)(6 * Math.random());
+          this.getImage_view();
         }
     }
 
